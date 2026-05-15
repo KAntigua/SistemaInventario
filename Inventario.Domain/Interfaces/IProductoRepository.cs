@@ -1,0 +1,9 @@
+﻿using Inventario.Domain.Entities;
+
+namespace Inventario.Domain.Interfaces
+{
+    public interface IProductoRepository : IGenericRepository<Producto>
+    {
+        Task<IEnumerable<Producto>> GetProductosBajoStockAsync();
+    }
+}
