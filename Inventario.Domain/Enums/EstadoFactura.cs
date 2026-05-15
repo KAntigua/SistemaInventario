@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace Inventario.Domain.Enums
 {
-    public enum TipoMovimiento
+    public enum EstadoFactura
     {
-       Entrada,
-       Salida
+        Borrador, 
+        Emitida,
+        Anulada
     }
 }

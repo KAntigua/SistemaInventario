@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Inventario.Domain.Enums;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -14,6 +15,7 @@ namespace Inventario.Domain.Entities
    
         public decimal Total { get; set; }
 
+        public EstadoFactura  Estado { get; set; }
         //Relaciones
 
         public ICollection <DetalleFactura> DetalleFacturas { get; set; }
