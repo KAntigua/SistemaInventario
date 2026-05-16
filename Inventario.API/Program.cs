@@ -1,5 +1,7 @@
 
+using Inventario.Domain.Interfaces;
 using Inventario.Infrastructure.Persistencia;
+using Inventario.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 namespace Inventario.API
@@ -20,6 +22,16 @@ namespace Inventario.API
             //DbContext
             builder.Services.AddDbContext<AppDbContext>(options => 
             options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+            //Repositorios
+            builder.Services.AddScoped<IProductoRepository, ProductoRepository>();
+            builder.Services.AddScoped<IProveedorRepository, ProveedorRepository>();
+            builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+            builder.Services.AddScoped<IMovimientoRepository, MovimientoRepository>();
+            builder.Services.AddScoped<IFacturaRepository, FacturaRepository>();
+            builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
+
+
 
             var app = builder.Build();
 
