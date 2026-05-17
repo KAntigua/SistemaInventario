@@ -11,6 +11,6 @@ namespace Inventario.Application.DTOs.Proveedor
 
         public string Correo { get; set; }
 
-
+        public string Nombre { get; set; }
     }
 }

@@ -1,4 +1,6 @@
 ﻿
+using Inventario.Application.DTOs.DetalleFactura;
+
 namespace Inventario.Application.DTOs.Factura
 {
     public class CrearFacturaDTO

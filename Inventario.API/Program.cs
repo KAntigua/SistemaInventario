@@ -1,4 +1,6 @@
 
+using Inventario.Application.Services.Implementations;
+using Inventario.Application.Services.Interfaces;
 using Inventario.Domain.Interfaces;
 using Inventario.Infrastructure.Persistencia;
 using Inventario.Infrastructure.Repositories;
@@ -31,6 +33,13 @@ namespace Inventario.API
             builder.Services.AddScoped<IFacturaRepository, FacturaRepository>();
             builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
 
+            //Servicios
+            builder.Services.AddScoped<IProductoService, ProductoService>();
+            builder.Services.AddScoped<ICategoriaService, CategoriaService>();
+            builder.Services.AddScoped<IProveedorService, ProveedorService>();
+            builder.Services.AddScoped<IUsuarioService, UsuarioService>();
+            builder.Services.AddScoped<IFacturaService, FacturaService>();
+            builder.Services.AddScoped<IMovimientoService, MovimientoService>();
 
 
             var app = builder.Build();

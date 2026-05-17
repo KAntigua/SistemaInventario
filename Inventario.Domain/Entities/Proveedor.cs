@@ -18,6 +18,8 @@ namespace Inventario.Domain.Entities
      
         public string Correo { get; set; }
 
+        public string Nombre { get; set; }
+
        //Relaciones
 
         public ICollection <Producto> Productos { get; set; }

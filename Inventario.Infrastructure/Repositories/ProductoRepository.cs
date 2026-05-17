@@ -18,7 +18,24 @@ namespace Inventario.Infrastructure.Repositories
            .Where(p => p.Stock <= p.StockMinimo)
            .ToListAsync();
         }
-       
+
+        public async Task<IEnumerable<Producto>> GetAllWithDetailsAsync()
+        {
+            return await _context.Set<Producto>()
+           .Include(p => p.Categoria)
+           .Include(p => p.Proveedor)
+           .ToListAsync();
+
+
+        }
+
+        public async Task<Producto?> GetByIdWithDetailsAsync(int id)
+        {
+            return await _context.Set<Producto>()
+                .Include(p => p.Categoria)
+                .Include(p => p.Proveedor)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
 
 
     }

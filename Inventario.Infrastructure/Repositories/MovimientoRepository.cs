@@ -30,5 +30,23 @@ namespace Inventario.Infrastructure.Repositories
               .ToListAsync();
 
         }
+
+        public async Task<IEnumerable<Movimiento>> GetAllWithDetailsAsync()
+        {
+            return await _context.Set<Movimiento>()
+           .Include(p => p.Usuario)
+           .Include(p => p.Producto)
+           .ToListAsync();
+
+
+        }
+
+        public async Task<Movimiento?> GetByIdWithDetailsAsync(int id)
+        {
+            return await _context.Set<Movimiento>()
+                .Include(p => p.Usuario)
+                .Include(p => p.Producto)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
     }
 }

@@ -7,5 +7,9 @@ namespace Inventario.Domain.Interfaces
         Task<IEnumerable<Movimiento>> GetByProductoIdAsync(int productoId);
 
         Task<IEnumerable<Movimiento>> GetByUsuarioIdAsync(int usuarioId);
+
+        Task<IEnumerable<Movimiento>> GetAllWithDetailsAsync();
+
+        Task<Movimiento?> GetByIdWithDetailsAsync(int id);
     }
 }

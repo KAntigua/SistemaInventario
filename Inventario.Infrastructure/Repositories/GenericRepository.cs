@@ -31,13 +31,13 @@ namespace Inventario.Infrastructure.Repositories
 
         }
 
-        public async Task UpdateByAsync(T entity)
+        public async Task UpdateAsync(T entity)
         {
             _context.Set<T>().Update(entity);
             await _context.SaveChangesAsync();
         }
 
-        public async Task DeleteByIdAsync(int id)
+        public async Task DeleteAsync(int id)
         {
             var entity = await GetByIdAsync(id);
             if (entity != null)

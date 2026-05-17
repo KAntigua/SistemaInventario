@@ -25,5 +25,20 @@ namespace Inventario.Infrastructure.Repositories
               .ToListAsync();
 
         }
+
+        public async Task<Factura?> GetByIdWithDetailsAsync(int id)
+        {
+            return await _context.Set<Factura>()
+                .Include(p => p.Usuario)
+                .Include(p => p.DetalleFacturas)
+                .FirstOrDefaultAsync(p => p.Id == id);
+        }
+
+        public async Task<IEnumerable<Factura>> GetAllWithDetailsAsync()
+        {
+            return await _context.Set<Factura>()
+                .Include(f => f.Usuario)
+                .ToListAsync();
+        }
     }
 }

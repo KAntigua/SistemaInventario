@@ -7,5 +7,9 @@ namespace Inventario.Domain.Interfaces
     {
         Task<IEnumerable<Factura>> GetByUsuarioIdAsync(int usuarioId);
         Task<IEnumerable<Factura>> GetByEstadoAsync(EstadoFactura estado);
+
+        Task<Factura?> GetByIdWithDetailsAsync(int id);
+
+        Task<IEnumerable<Factura>> GetAllWithDetailsAsync();
     }
 }
