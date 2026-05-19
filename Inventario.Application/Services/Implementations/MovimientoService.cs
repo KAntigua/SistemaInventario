@@ -1,6 +1,7 @@
 ﻿using Inventario.Application.DTOs.Movimiento;
 using Inventario.Application.Services.Interfaces;
 using Inventario.Domain.Entities;
+using Inventario.Domain.Enums;
 using Inventario.Domain.Interfaces;
 
 namespace Inventario.Application.Services.Implementations
@@ -8,10 +9,11 @@ namespace Inventario.Application.Services.Implementations
     public class MovimientoService : IMovimientoService
     {
         private readonly IMovimientoRepository _movimientoRepository;
-
-        public MovimientoService(IMovimientoRepository movientoRepository)
+        private readonly IProductoRepository _productoRepository;
+        public MovimientoService(IMovimientoRepository movientoRepository, IProductoRepository productoRepository)
         {
             _movimientoRepository = movientoRepository;
+            _productoRepository = productoRepository;
         }
 
         public async Task<IEnumerable<MovimientoDTO>> GetAllAsync()
@@ -54,6 +56,30 @@ namespace Inventario.Application.Services.Implementations
 
         public async Task<MovimientoDTO> CreateAsync(CrearMovimientoDTO dto)
         {
+            var producto = await _productoRepository
+                .GetByIdAsync(dto.ProductoId);
+
+            if (producto == null)
+            {
+                throw new Exception("Producto no encontrado");
+            }
+
+            if (dto.Tipo == TipoMovimiento.Salida)
+            {
+                if (producto.Stock < dto.Cantidad)
+                {
+                    throw new Exception("Stock insuficiente");
+                }
+
+                producto.Stock -= dto.Cantidad;
+            }
+
+            else if (dto.Tipo == TipoMovimiento.Entrada)
+            {
+                producto.Stock += dto.Cantidad;
+            }
+
+            await _productoRepository.UpdateAsync(producto);
 
             var movimiento = new Movimiento
             {
@@ -61,13 +87,16 @@ namespace Inventario.Application.Services.Implementations
                 Tipo = dto.Tipo,
                 Motivo = dto.Motivo,
                 UsuarioId = dto.UsuarioId,
-                ProductoId = dto.ProductoId
+                ProductoId = dto.ProductoId,
             };
 
-            var creado = await _movimientoRepository.CreateAsync(movimiento);
-            var conDetalles = await _movimientoRepository.GetByIdWithDetailsAsync(creado.Id);
+            var creado = await _movimientoRepository
+                .CreateAsync(movimiento);
 
-            return new MovimientoDTO
+            var conDetalles = await _movimientoRepository
+                .GetByIdWithDetailsAsync(creado.Id);
+
+            var movimientoDto = new MovimientoDTO
             {
                 Fecha = conDetalles.Fecha,
                 Tipo = conDetalles.Tipo,
@@ -76,6 +105,10 @@ namespace Inventario.Application.Services.Implementations
                 ProductoNombre = conDetalles.Producto.Nombre
             };
 
+            if (producto.Stock <= producto.StockMinimo)
+                movimientoDto.Advertencia = $"Stock bajo: {producto.Stock} unidades";
+
+            return movimientoDto;
         }
 
 

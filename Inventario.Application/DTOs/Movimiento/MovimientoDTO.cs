@@ -11,6 +11,8 @@ namespace Inventario.Application.DTOs.Movimiento
 
         public string Motivo { get; set; }
 
+        public string? Advertencia { get; set; }
+
         public string UsuarioNombre { get; set; }
         public string ProductoNombre { get; set; }
     }

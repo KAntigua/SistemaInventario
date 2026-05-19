@@ -11,7 +11,6 @@ namespace Inventario.Application.DTOs.Usuario
 
         public string Contrasena { get; set; }
 
-
         public TipoRol Rol { get; set; }
     }
 }

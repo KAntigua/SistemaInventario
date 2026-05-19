@@ -16,10 +16,17 @@ namespace Inventario.Application.Services.Implementations
     public class FacturaService : IFacturaService
     {
         private readonly IFacturaRepository _facturaRepository;
+        private readonly IDetalleFacturaRepository _detalleFacturaRepository;
+        private readonly IProductoRepository _productoRepository;
 
-        public FacturaService(IFacturaRepository facturaRepository) { 
-        
-        _facturaRepository = facturaRepository;
+        public FacturaService(
+            IFacturaRepository facturaRepository,
+            IDetalleFacturaRepository detalleFacturaRepository,
+            IProductoRepository productoRepository)
+        {
+            _facturaRepository = facturaRepository;
+            _detalleFacturaRepository = detalleFacturaRepository;
+            _productoRepository = productoRepository;
         }
 
         public async Task<IEnumerable<FacturaDTO>> GetAllAsync()
@@ -59,17 +66,48 @@ namespace Inventario.Application.Services.Implementations
 
         public async Task<FacturaDTO> CreateAsync(CrearFacturaDTO dto)
         {
-
             var factura = new Factura
             {
                 Fecha = dto.Fecha,
                 UsuarioId = dto.UsuarioId,
                 Estado = EstadoFactura.Borrador
-
             };
 
             var creado = await _facturaRepository.CreateAsync(factura);
-            var conDetalles = await _facturaRepository.GetByIdWithDetailsAsync(creado.Id);
+
+            var detallesFactura = new List<DetalleFactura>();
+
+            foreach (var detalle in dto.Detalles)
+            {
+                var producto = await _productoRepository
+                    .GetByIdAsync(detalle.ProductoId);
+
+                if (producto == null)
+                {
+                    throw new Exception("Producto no encontrado");
+                }
+
+                var detalleFactura = new DetalleFactura
+                {
+                    FacturaId = creado.Id,
+                    ProductoId = detalle.ProductoId,
+                    Cantidad = detalle.Cantidad,
+                    PrecioUnitario = producto.PrecioVenta
+                };
+
+                await _detalleFacturaRepository
+                    .CreateAsync(detalleFactura);
+
+                detallesFactura.Add(detalleFactura);
+            }
+
+            factura.Total = detallesFactura.Sum(d =>
+                d.Cantidad * d.PrecioUnitario);
+
+            await _facturaRepository.UpdateAsync(factura);
+
+            var conDetalles = await _facturaRepository
+                .GetByIdWithDetailsAsync(creado.Id);
 
             return new FacturaDTO
             {
@@ -78,9 +116,7 @@ namespace Inventario.Application.Services.Implementations
                 Total = conDetalles.Total,
                 Estado = conDetalles.Estado,
                 UsuarioNombre = conDetalles.Usuario.Nombre
-
             };
-
         }
 
         public async Task<FacturaDTO> UpdateAsync(int id, ActualizarFacturaDTO dto)

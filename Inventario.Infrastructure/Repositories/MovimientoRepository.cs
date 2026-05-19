@@ -2,11 +2,6 @@
 using Inventario.Domain.Interfaces;
 using Inventario.Infrastructure.Persistencia;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Inventario.Infrastructure.Repositories
 {
@@ -26,9 +21,10 @@ namespace Inventario.Infrastructure.Repositories
         public async Task<IEnumerable<Movimiento>> GetByUsuarioIdAsync(int id)
         {
             return await _context.Set<Movimiento>()
-              .Where(m => m.UsuarioId == id)
-              .ToListAsync();
-
+                .Include(m => m.Usuario)
+                .Include(m => m.Producto)
+                .Where(m => m.UsuarioId == id)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Movimiento>> GetAllWithDetailsAsync()
