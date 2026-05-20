@@ -1,4 +1,5 @@
-﻿using Inventario.Application.DTOs.Producto;
+﻿using Inventario.Application.DTOs.Almacen;
+using Inventario.Application.DTOs.Producto;
 
 namespace Inventario.Application.Services.Interfaces
 {
@@ -10,7 +11,6 @@ namespace Inventario.Application.Services.Interfaces
         Task<ProductoDTO> CreateAsync(CrearProductoDTO dto);
         Task<ProductoDTO> UpdateAsync(int id,ActualizarProductoDTO dto);
         Task DeleteAsync(int id);
-
         Task<IEnumerable<ProductoDTO>> GetProductosBajoStockAsync();
 
     }

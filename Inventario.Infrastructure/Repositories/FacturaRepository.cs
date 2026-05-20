@@ -13,17 +13,17 @@ namespace Inventario.Infrastructure.Repositories
         public async Task<IEnumerable<Factura>> GetByUsuarioIdAsync(int id)
         {
             return await _context.Set<Factura>()
-              .Where(m => m.UsuarioId == id)
-              .ToListAsync();
-
+                .Include(f => f.Usuario)
+                .Where(m => m.UsuarioId == id)
+                .ToListAsync();
         }
 
         public async Task<IEnumerable<Factura>> GetByEstadoAsync(EstadoFactura estado)
         {
             return await _context.Set<Factura>()
-              .Where(m => m.Estado == estado)
-              .ToListAsync();
-
+                .Include(f => f.Usuario)
+                .Where(m => m.Estado == estado)
+                .ToListAsync();
         }
 
         public async Task<Factura?> GetByIdWithDetailsAsync(int id)

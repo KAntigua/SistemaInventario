@@ -70,6 +70,7 @@ namespace Inventario.Application.Services.Implementations
 
             return new JwtSecurityTokenHandler()
                 .WriteToken(token);
+
         }
     }
 }

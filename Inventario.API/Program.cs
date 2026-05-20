@@ -8,6 +8,7 @@ using Inventario.Infrastructure.Persistencia;
 using Inventario.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Text.Json.Serialization;
 
 namespace Inventario.API
 {
@@ -64,6 +65,8 @@ namespace Inventario.API
             builder.Services.AddScoped<IFacturaRepository, FacturaRepository>();
             builder.Services.AddScoped<ICategoriaRepository, CategoriaRepository>();
             builder.Services.AddScoped<IDetalleFacturaRepository, DetalleFacturaRepository>();
+            builder.Services.AddScoped<IAlmacenRepository, AlmacenRepository>();
+            builder.Services.AddScoped<IProductoAlmacenRepository, ProductoAlmacenRepository>();
 
             //Servicios
             builder.Services.AddScoped<IProductoService, ProductoService>();
@@ -73,6 +76,8 @@ namespace Inventario.API
             builder.Services.AddScoped<IFacturaService, FacturaService>();
             builder.Services.AddScoped<IMovimientoService, MovimientoService>();
             builder.Services.AddScoped<IAuthService, AuthService>();
+            builder.Services.AddScoped<IProductoAlmacenService, ProductoAlmacenService>();
+            builder.Services.AddScoped<IAlmacenService, AlmacenService>();
 
             //Autorizacion
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -97,8 +102,14 @@ namespace Inventario.API
 
             builder.Services.AddAuthorization();
 
+            builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+    });
 
-          var app = builder.Build();
+
+            var app = builder.Build();
 
           
 

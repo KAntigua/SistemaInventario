@@ -13,6 +13,9 @@ namespace Inventario.Infrastructure.Repositories
         public async Task<IEnumerable<Movimiento>> GetByProductoIdAsync(int id)
         {
             return await _context.Set<Movimiento>()
+              .Include(m => m.Usuario)
+              .Include(m => m.Producto)
+              .Include(m => m.Almacen)
               .Where(m => m.ProductoId == id)
               .ToListAsync();
 
@@ -23,6 +26,7 @@ namespace Inventario.Infrastructure.Repositories
             return await _context.Set<Movimiento>()
                 .Include(m => m.Usuario)
                 .Include(m => m.Producto)
+                .Include(m => m.Almacen)
                 .Where(m => m.UsuarioId == id)
                 .ToListAsync();
         }
@@ -32,6 +36,7 @@ namespace Inventario.Infrastructure.Repositories
             return await _context.Set<Movimiento>()
            .Include(p => p.Usuario)
            .Include(p => p.Producto)
+           .Include(m => m.Almacen) 
            .ToListAsync();
 
 
@@ -42,6 +47,7 @@ namespace Inventario.Infrastructure.Repositories
             return await _context.Set<Movimiento>()
                 .Include(p => p.Usuario)
                 .Include(p => p.Producto)
+                .Include(m => m.Almacen) 
                 .FirstOrDefaultAsync(p => p.Id == id);
         }
     }

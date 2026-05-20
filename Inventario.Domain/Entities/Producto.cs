@@ -37,6 +37,7 @@ namespace Inventario.Domain.Entities
 
         public ICollection<Movimiento> Movimientos { get; set; }
         public ICollection<DetalleFactura> DetalleFacturas { get; set; }
+        public ICollection<ProductoAlmacen> ProductoAlmacenes { get; set; }
 
     }
 }

@@ -27,5 +27,7 @@ namespace Inventario.Infrastructure.Persistencia
         public DbSet<Factura> Facturas { get; set; }
         public DbSet<DetalleFactura> DetalleFacturas { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
+        public DbSet<Almacen> Almacenes { get; set; }
+        public DbSet<ProductoAlmacen> ProductoAlmacenes { get; set; }
     }
 }

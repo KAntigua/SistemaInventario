@@ -65,10 +65,14 @@ namespace Inventario.Application.Services.Implementations
 
         public async Task<ProductoDTO> CreateAsync(CrearProductoDTO dto)
         {
+            var productos = await _productoRepository.GetAllAsync();
+
+            var codigoGenerado =
+                $"PROD-{(productos.Count() + 1):D4}";
 
             var producto = new Producto
             {
-                Codigo = dto.Codigo,
+                Codigo = codigoGenerado,
                 Nombre = dto.Nombre,
                 Descripcion = dto.Descripcion,
                 PrecioVenta = dto.PrecioVenta,

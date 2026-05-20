@@ -5,7 +5,6 @@ namespace Inventario.Application.DTOs.Producto
 {
     public class CrearProductoDTO
     {
-        public string Codigo { get; set; }
 
         public string Nombre { get; set; }
 

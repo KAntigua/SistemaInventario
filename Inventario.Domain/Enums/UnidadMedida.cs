@@ -8,10 +8,13 @@ namespace Inventario.Domain.Enums
 {
     public enum UnidadMedida
     {
-        Longitid,
-        Masa, 
-        Tiempo,
-        Corriente,
-        Temperatura
+        Unidad,
+        Kilogramo,
+        Libra,
+        Litro,
+        Galon,
+        Caja,
+        Docena,
+        Metro
     }
 }

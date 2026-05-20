@@ -25,6 +25,10 @@ namespace Inventario.Infrastructure.Persistencia.Configuracion
               .WithMany(x => x.Movimientos)
               .HasForeignKey(x => x.ProductoId);
 
+            builder.HasOne(x => x.Almacen)
+              .WithMany(x => x.Movimientos)
+              .HasForeignKey(x => x.AlmacenId);
+
         }
 
     }

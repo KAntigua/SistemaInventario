@@ -32,6 +32,7 @@ namespace Inventario.Infrastructure.Persistencia.Configuracion
             builder.HasOne(x => x.Categoria)
                .WithMany(x => x.Productos)
                .HasForeignKey(x => x.CategoriaId);
+
         }
     }
 }
